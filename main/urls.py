@@ -23,4 +23,5 @@ urlpatterns = [
     path('winner_results/<int:project_id>', views.winner_results, name='winner_results'),
     path('check_email_availability/', views.check_email_availability, name='check_email_availability'),
    
-]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
++ static(settings.MEDIA_URL, document_root=settings.STATIC_ROOT)
