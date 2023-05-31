@@ -1,0 +1,182 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,300&display=swap');
+        </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"> 
+</head>
+
+<body>
+    <header class="header">
+
+        <a class="navbar-link" href="{% url 'home' %}"   ><p class="logo">HACKGEEK</p></a>
+        <nav class="navbar">
+          <ul class="navbar-list">
+         
+            <li>
+              <a class="navbar-link" href={% url 'logout_form' %}> log out </a></button></li>
+            </li>
+        </ul>
+            <div class="mobile-navbar-btn2" onclick="expand()">
+                <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+                <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+            </div>
+        </nav>
+
+        <div class="mobile-navbar-btn">
+            <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+            <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+        </div>
+    </header>
+
+
+
+
+
+
+<div class="host-container">
+    <div class="host-card">
+<div class="detail_hackthon">
+    Detail of {{hack.title}}
+</div>
+    <div class="host-title flex">
+        <p class="title">Title of Hackthon </p> 
+        <p class="desc">{{hack.title}}</p>
+    </div>    
+    <div class="host-org-name flex">
+        <p class="title">Oraganizer of Hackthon</p>    <p class="desc"> {{hack.org_name}}</p>
+    </div>
+    <div class="host-org-desc flex">
+        <p class="title">Detail of Oraganizer </p> <p class="desc">  {{hack.org_desc}}</p>
+    </div>
+    <div class="host-description flex">
+        <p class="title">Description of Hackthon  </p> 
+        <p class="desc">{{hack.id}}   {{hack.desc}}</p>
+    </div>
+    
+    {% comment %} {% if hack.end_date >= today %} {% endcomment %}
+    {% if participated_hackathons  == hack.id and hack.end_date >= today%}
+
+    {% if data.user == user.email %}
+    {%if data.project_id != hack.id  %}
+    <div class="file_upload"><p>You have submitted the form if you want to chane the file you can reupload your new file here last uploaded file name:-<b>{{data.files}}</b></p></div>
+     <form method="post" action="{% url 'edit_file' data.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+            <input type="hidden"  name="pid" value={{hack.id}}>
+            <input type="file"  name="files"  value={{data.files}}>
+        <input type="submit" />
+       {% comment %} {%endif%} {% endcomment %}
+       {%endif%}
+       {% comment %} {%endif%} {% endcomment %}
+    </form> 
+     
+
+{%else%}
+{% comment %} {%for detail in details%} {% endcomment %}
+{% comment %} {% if detail.team_leader == user.email %} {% endcomment %}
+<form method="post" action="{% url 'store_file' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+        <input type="hidden"  name="pid" value={{hack.id}}>
+        <input type="file"  name="files">
+    <input type="submit" />
+    </form> 
+    
+    {% comment %}    {%endfor%}{%endif%} {% endcomment %}
+    {%endif%}
+    {% else%}    
+    {% comment %} <a href="{% url 'apply' hack.id %}"><button class="button">Register</button></a> {% endcomment %}
+    {% if hack.end_date >= today %}
+    <a href="{% url 'apply' hack.id %}"><button class="button">Register</button></a>
+    
+    {%endif%}
+   
+ {% endif %}
+          
+
+
+
+            {% if hack.end_date < today %}
+    
+         
+           {% for team_detail in team_details %}
+           <div class="winner">
+               <p class="position">Position: {{ team_detail.position }}</p>
+               <p class="team-leader">Team Leader: {{ team_detail.team_leader }}</p>
+               <p class="team-members">Team Members:
+                   {% for member in team_detail.team_members %}
+                       <span class="team-member">{{ member }}</span>
+                   {% endfor %}
+               </p>
+               <!-- Display other winner details as needed -->
+           </div><hr>
+          {% endfor %}
+          
+          
+              {%endif%}
+
+</div>
+</div>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           <script>
+            window.onscroll = () => {
+                const nav = document.querySelector('header');
+                if (this.scrollY <= 1) nav.className = 'header';
+                else nav.className = 'scroll';
+            };
+        
+        
+            const mobile_nav = document.querySelector(".mobile-navbar-btn");
+            const nav_header = document.querySelector(".header");
+        
+            const toggleNavbar = () => {
+                // alert("Plz Subscribe ");
+                nav_header.classList.toggle("active");
+            };
+        
+            mobile_nav.addEventListener("click", () => toggleNavbar());
+        
+            // window.onscroll = () => {
+            //   const nav = document.querySelector('navbar');
+            //   if(this.scrollY <= 1) nav.className = 'navbar';
+            //    else nav.className = 'scroll';
+            // };
+        </script>
+        
+        
+        </body>
+        
+        </html>

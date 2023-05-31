@@ -1,0 +1,228 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=My+Soul&family=Work+Sans:wght@100;400;500;600&display=swap');
+  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <header class="header">
+
+      <a class="navbar-link" href="{% url 'home' %}"   ><p class="logo">HACKGEEK</p></a>
+        <nav class="navbar">
+          <ul class="navbar-list">
+         
+            <li>
+              <a class="navbar-link" href={% url 'logout_form' %}> {{user.email}} </a></button></li>
+            </li>
+            <li>
+              <a class="navbar-link" href={% url 'logout_form' %}> log out </a></button></li>
+            </li>
+        </ul>
+            <div class="mobile-navbar-btn2" onclick="expand()">
+                <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+                <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+            </div>
+        </nav>
+
+        <div class="mobile-navbar-btn">
+            <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+            <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+        </div>
+    </header>
+
+
+
+
+<p>
+    {% comment %} {% now "SHORT_DATE_FORMAT" %} {% endcomment %}
+    {% comment %} for Participant {% endcomment %}
+
+{% if user.roles == 'is_part'%} 
+
+
+
+
+{% comment %} {% if hosts.from_date ==  today %} {% endcomment %}
+<div class="hackthon-container">
+
+
+    <p>participated</p>
+    <div class="closed">
+{% for participated in participated_hackathons %}
+<a href="hack_details/{{ participated.project_id }}">
+<div class="product-cards" style="height:10vw; width:10vw; padding-top:5vw">
+    {% comment %} <img src="{{participated.image.url}}" alt="Product Image"> {% endcomment %}
+    <div class="product-info">
+      <h2 class="product-title">{{ participated.title }}</h2>
+    </div>
+    
+  </div></a>
+{%endfor%}
+</div> 
+{{data.files.url}}
+
+<p> Running Hackthon</p>
+<div class="closed">
+{% for hosts in host%}
+{% if hosts.from_date < today and hosts.end_date >= today%}
+<a href="hack_details/{{ hosts.id }}">
+<div class="product-cards">
+    <img src="{{hosts.image.url}}" alt="Product Image">
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.title }}</h2>
+    </div>
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.from_date }}</h2>
+    </div>
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.end_date }}</h2>
+    </div>
+  </div></a>
+{%endif%}
+{%endfor%}
+</div>
+<p> Upcomming </p>
+<div class="closed">
+{% for hosts in host%}
+{%if hosts.from_date >  today  %}
+<a href="hack_details/{{ hosts.id }}">
+<div class="product-cards">
+    <img src="{{hosts.image.url}}" alt="Product Image">
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.title }}</h2>
+    </div>
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.from_date }}</h2>
+    </div>
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.end_date }}</h2>
+    </div>
+  </div></a>
+{% endif %}
+{% endfor%}</div>
+
+<p> Closed  Hackthons</p>
+<div class="closed">
+
+{% for hosts in host%}
+
+{%if hosts.end_date <  today  %}
+
+<a href="hack_details/{{ hosts.id }}">
+
+<div class="product-cards">
+    <img src="{{hosts.image.url}}" alt="Product Image">
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.title }}</h2>
+    </div>
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.from_date }}</h2>
+    </div>
+    <div class="product-info">
+      <h2 class="product-title">{{ hosts.end_date }}</h2>
+    </div>
+  </div>
+</a>
+
+{% endif %}
+
+{% endfor %} 
+
+
+{% comment %} //  detail For Host {% endcomment %}
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% else %}
+
+
+<div class="host-container" >
+    <div class="apply-card">
+
+<div class="host_hack_btn">
+        <a href={% url 'host_hack' %}><button class="host_button">Host </button></a></div>
+{% for hosts in only_host%}
+<div class="see_hack">
+<a href="part_details/{{ hosts.id }}">{{ hosts.title }}</a>
+{{ hosts.host_name }}
+<a href="delete/{{ hosts.id }}">delete</a>
+</tr>
+
+<a href="create_winner/{{hosts.id}}"> Give results</a>
+</div>
+{% endfor %} 
+
+
+{% endif %}<p>
+
+
+</div></div>
+
+
+
+
+
+
+
+
+
+
+<script>
+    window.onscroll = () => {
+        const nav = document.querySelector('header');
+        if (this.scrollY <= 1) nav.className = 'header';
+        else nav.className = 'scroll';
+    };
+
+
+    const mobile_nav = document.querySelector(".mobile-navbar-btn");
+    const nav_header = document.querySelector(".header");
+
+    const toggleNavbar = () => {
+        // alert("Plz Subscribe ");
+        nav_header.classList.toggle("active");
+    };
+
+    mobile_nav.addEventListener("click", () => toggleNavbar());
+
+    // window.onscroll = () => {
+    //   const nav = document.querySelector('navbar');
+    //   if(this.scrollY <= 1) nav.className = 'navbar';
+    //    else nav.className = 'scroll';
+    // };
+</script>
+
+
+</body>
+
+</html>

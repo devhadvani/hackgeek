@@ -1,0 +1,81 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"> 
+</head>
+
+<body>
+    <header class="header">
+
+      <a class="navbar-link" href="{% url 'home' %}"   ><p class="logo">HACKGEEK</p></a>
+      <nav class="navbar">
+        <ul class="navbar-list">
+       
+          <li>
+            <a class="navbar-link" href={% url 'logout_form' %}> log out </a></button></li>
+          </li>
+      </ul>
+            <div class="mobile-navbar-btn2" onclick="expand()">
+                <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+                <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+            </div>
+        </nav>
+
+        <div class="mobile-navbar-btn">
+            <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+            <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+        </div>
+    </header>
+
+
+    <div class="host-container" >
+        <div class="apply-card">
+    
+    
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="team">Select a Team:</label>
+    <select name="team" id="team">
+      {% for team in hackathon_teams %}
+        <option value="{{ team.team_id }}">{{ team.team_leader }}</option>
+      {% endfor %}
+    </select>
+    
+    <label for="position">Position:</label>
+    <select name="position" id="position">
+      <option value="1">First Place</option>
+      <option value="2">Second Place</option>
+      <option value="3">Third Place</option>
+    </select>
+    
+    <input type="submit" value="Submit">
+  </form>
+  
+<div>
+
+    {% for message in messages %}
+    <p class="error">{{ message }}</p>
+  {% endfor %}
+
+  <a href="{% url 'clear_winners' project_id %}">Clear submitted winners</a>
+  {%for winner in winner%}
+
+
+
+   <p>Winner team id {{winner.team_id}} ..... &nbsp;
+   </p>
+   <p>Team leader: {{ winner.team.team_leader }}</p>
+   <p>team position {{winner.position}}</p>
+   <hr>
+  {%endfor %}
+</div>

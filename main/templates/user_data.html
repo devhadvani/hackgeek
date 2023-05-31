@@ -1,0 +1,66 @@
+
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"> 
+</head>
+
+<body>
+    <header class="header">
+
+        <a class="navbar-link" href="{% url 'home' %}"   ><p class="logo">HACKGEEK</p></a>
+        <nav class="navbar">
+          <ul class="navbar-list">
+         
+            <li>
+              <a class="navbar-link" href={% url 'logout_form' %}> log out </a></button></li>
+            </li>
+        </ul>
+            <div class="mobile-navbar-btn2" onclick="expand()">
+                <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+                <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+            </div>
+        </nav>
+
+        <div class="mobile-navbar-btn">
+            <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+            <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+        </div>
+    </header>
+
+
+
+
+
+{% comment %} {{data.email}} {% endcomment %}
+{% comment %} {{data.first_name}}
+{{data.last_name}}
+{{topic.title}}
+{{toptic.id}} {% endcomment %}
+
+<div class="host-container" >
+    <div class="apply-card">
+
+
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="form-group">
+   {{form.roles}}
+   
+   
+    {% endif %}
+   <input type="submit">
+
+
+</form>
+{{form.errors}}
