@@ -44,31 +44,36 @@ def participant_login_required(view_func):
 
 # Create your views here.
 today = datetime.date.today()
+
 def home(request):
-    if not request.user.is_authenticated:
-        hackathons = Host_hack.objects.all()
-        total_hackathons = hackathons.count()
-        team_count = Details.objects.count()
-        user_count = User   .objects.count()
-        context = {
-            'total_hackathons': total_hackathons,
-            'hackathons': hackathons,
-            'team_count':team_count,
-            'user_count':user_count
-        }
-        return render(request,"index.html",context)
-    username = None
-    participated_hackathons = Details.objects.filter(Q(team_leader=request.user) | Q(team_m2=request.user) | Q(team_m3=request.user))
-    only_host = Host_hack.objects.filter(host_name = request.user)
-    print(only_host)
-    for host in only_host:
-        print(host)
-    all_host = Host_hack.objects.all()
-    context = {'host': all_host,'only_host':only_host,'today':today,'participated_hackathons':participated_hackathons} 
-    if request.user.is_authenticated:
-        username = request.user
-        return render(request,"home.html",context)
-    return render(request,"index.html",context)
+    return HttpResponse("DSDFsf")
+
+
+# def home(request):
+#     if not request.user.is_authenticated:
+#         hackathons = Host_hack.objects.all()
+#         total_hackathons = hackathons.count()
+#         team_count = Details.objects.count()
+#         user_count = User   .objects.count()
+#         context = {
+#             'total_hackathons': total_hackathons,
+#             'hackathons': hackathons,
+#             'team_count':team_count,
+#             'user_count':user_count
+#         }
+#         return render(request,"index.html",context)
+#     username = None
+#     participated_hackathons = Details.objects.filter(Q(team_leader=request.user) | Q(team_m2=request.user) | Q(team_m3=request.user))
+#     only_host = Host_hack.objects.filter(host_name = request.user)
+#     print(only_host)
+#     for host in only_host:
+#         print(host)
+#     all_host = Host_hack.objects.all()
+#     context = {'host': all_host,'only_host':only_host,'today':today,'participated_hackathons':participated_hackathons} 
+#     if request.user.is_authenticated:
+#         username = request.user
+#         return render(request,"home.html",context)
+#     return render(request,"index.html",context)
 
 
 @host_login_required
